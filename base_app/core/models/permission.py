@@ -5,8 +5,7 @@ from sqlalchemy import Boolean, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
-# ВАЖНО: НЕ импортируем Profile здесь во время рантайма, чтобы не ловить цикл.
-# Для тайпхинтов можно так:
+# Для тайпхинтов не импортируем Profile во время рантайма, чтобы не ловить цикл.
 # from typing import TYPE_CHECKING
 # if TYPE_CHECKING:
 #     from .profile import Profile
@@ -14,13 +13,18 @@ from .base import Base
 
 class Permission(Base):
     """
-    Набор флагов доступа для профиля (many-to-one с Profile).
-    По умолчанию — всё False.
+    Набор флагов доступа для профиля.
+    Связь: 1:1 с Profile (через unique profile_id).
     """
     __tablename__ = "permissions"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    profile_id: Mapped[int] = mapped_column(ForeignKey("profiles.id"), nullable=False)
+    profile_id: Mapped[int] = mapped_column(
+        ForeignKey("profiles.id", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,   # 1:1 с профилем
+        index=True,
+    )
 
     is_superadmin: Mapped[bool] = mapped_column(Boolean, default=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
@@ -29,7 +33,8 @@ class Permission(Base):
     is_reader: Mapped[bool] = mapped_column(Boolean, default=False)
     is_user: Mapped[bool] = mapped_column(Boolean, default=False)
 
-    profile: Mapped["Profile"] = relationship("Profile", back_populates="permissions")
+    # Имя поля в Profile — 'permission' (singular)
+    profile: Mapped["Profile"] = relationship("Profile", back_populates="permission")
 
     def verificate(self) -> None:
         """
