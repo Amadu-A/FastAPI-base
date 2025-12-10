@@ -160,3 +160,51 @@ textarea {
   border-color: var(--err);
   background: var(--err-bg);
 }
+/* Карточка под шапкой профиля */
+.card{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:var(--radius);
+  padding:16px;
+  margin-bottom:16px;
+}
+
+/* Общая обёртка формы профиля (ширина как у регистрации) */
+.profile-form{
+  max-width:640px;
+}
+
+/* Сетка строк формы уже задана .form-row (align, gap, mb) — используем её.
+   Чтобы поле "прилипало" к правому краю строки, инпут растягиваем на всю ширину. */
+.form-row > input,
+.form-row > select,
+.form-row > textarea{
+  width:100%;
+}
+
+/* Правое выравнивание текста внутри инпутов */
+.input-stick-right{
+  text-align:right;
+}
+
+/* Ячейка для аватара: превью + input:file по правому краю */
+.avatar-cell{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end; /* прижать к правому краю */
+  gap:8px;
+}
+
+/* Превью аватара компактнее и с округлением */
+.avatar-preview img{
+  max-height:120px;
+  border-radius:8px;
+  display:block;
+}
+
+/* Ряд с кнопкой — кнопка у правого края */
+.form-actions{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:8px;
+}
