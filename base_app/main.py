@@ -33,7 +33,12 @@ def create_app() -> FastAPI:
         default_response_class=ORJSONResponse,
         lifespan=lifespan,
     )
-    app.add_middleware(SessionMiddleware, secret_key=settings.auth.secret_key)  # <— для session/CSRF
+    app.add_middleware(
+        SessionMiddleware,
+        secret_key=settings.auth.secret_key,
+        session_cookie="fsnb_session",
+        same_site="lax",
+    )  # <— для session/CSRF
 
     # /static -> ./static (в корне проекта)
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")

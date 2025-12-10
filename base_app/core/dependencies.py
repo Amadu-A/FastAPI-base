@@ -8,14 +8,14 @@ from jose import JWTError
 from .security import decode_token
 from .logging import get_logger
 
+# ВАЖНО: tokenUrl должен совпадать с реальным API-роутом получения токена
+# Если у тебя токен выдаёт, например, /api/api_v1/auth/token — укажи его.
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
 log = get_logger("deps")
 
 
 def get_current_subject(token: str = Depends(oauth2_scheme)) -> dict:
-    """
-    Возвращает payload токена или 401.
-    """
+    """Возвращает payload токена или 401."""
     try:
         payload = decode_token(token)
         return payload

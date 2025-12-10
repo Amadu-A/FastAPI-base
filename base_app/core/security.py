@@ -4,27 +4,19 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Optional
 
-from jose import jwt
-# Берём прямой хешер bcrypt_sha256 — он сначала делает SHA-256,
-# поэтому ограничение bcrypt в 72 байта не срабатывает.
+from jose import jwt, JWTError
 from passlib.hash import bcrypt_sha256
 
 from base_app.core.config import settings
 
 
 def hash_password(password: str) -> str:
-    """
-    Возвращает хэш пароля с использованием bcrypt_sha256.
-    bcrypt_sha256 предварительно SHA-256-хеширует пароль,
-    снимая лимит 72 байт у классического bcrypt.
-    """
+    """Хэш пароля через bcrypt_sha256 (снимает лимит 72 байта у bcrypt)."""
     return bcrypt_sha256.hash(password)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """
-    Проверяет соответствие пароля и хэша.
-    """
+    """Проверка пароля."""
     if not hashed_password:
         return False
     return bcrypt_sha256.verify(plain_password, hashed_password)
@@ -36,14 +28,21 @@ def create_access_token(
     expires_minutes: Optional[int] = None,
     extra: Optional[Dict[str, Any]] = None,
 ) -> str:
-    """
-    Создаёт JWT (Bearer). По умолчанию TTL берём из settings.auth.access_token_minutes.
-    """
+    """Создаёт JWT (Bearer)."""
     to_encode: Dict[str, Any] = {"sub": str(subject)}
     if extra:
         to_encode.update(extra)
     expire = datetime.now(timezone.utc) + timedelta(
         minutes=expires_minutes or settings.auth.access_token_minutes
     )
-    to_encode["exp"] = expire
+    to_encode["exp"] = int(expire.timestamp())
     return jwt.encode(to_encode, settings.auth.secret_key, algorithm=settings.auth.algorithm)
+
+
+def decode_token(token: str) -> Dict[str, Any]:
+    """
+    Декодирует и валидирует JWT. Бросает jose.JWTError при неверной подписи/просрочке.
+    """
+    payload = jwt.decode(token, settings.auth.secret_key, algorithms=[settings.auth.algorithm])
+    # payload уже проверен по exp
+    return dict(payload)
