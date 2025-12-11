@@ -1,16 +1,17 @@
-<!-- /templates/admin/index.html -->
 {% extends "core/base.html" %}
-{% block title %}Admin — Index{% endblock %}
-
 {% block content %}
-  <h2>Admin</h2>
-  <p>Signed in as: <b>{{ me.username or me.email }}</b></p>
+<h1>Админка</h1>
 
-  <ul class="nav-list" style="margin-top:12px;">
-    <li><a href="{{ request.url_for('admin_users') }}">Users</a></li>
+<div class="card">
+  <h3>Зарегистрированные модели</h3>
+  <ul>
+    {% for m in models %}
+      <li>
+        <a href="{{ request.url_for('admin_model_list', slug=m.slug) }}">
+          {{ m.model_name }} ({{ m.slug }})
+        </a>
+      </li>
+    {% endfor %}
   </ul>
-
-  <form method="post" action="{{ request.url_for('admin_logout') }}" style="margin-top:16px;">
-    <button class="btn" type="submit">Logout</button>
-  </form>
+</div>
 {% endblock %}
