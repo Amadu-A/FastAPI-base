@@ -1,0 +1,300 @@
+/* /static/css/style.css */
+
+/* 1) Variables */
+:root {
+  --gap: 16px;
+  --radius: 10px;
+  --ok: #19a974;
+  --ok-bg: #e6fbf2;
+  --err: #d33;
+  --err-bg: #fdecec;
+}
+
+/* 2) Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #111;
+  background: #fafafa;
+}
+a {
+  color: #0366d6;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* 3) Layout */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--gap);
+}
+
+/* Header / Navbar */
+.header {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+}
+.brand {
+  font-weight: 700;
+}
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+.nav-logout {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  font: inherit;
+}
+
+/* Back-compat для старой разметки шапки */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+.navbar .brand {
+  font-weight: 700;
+}
+.spacer {
+  flex: 1;
+}
+
+/* 4) Tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+.table th {
+  background: #f3f3f3;
+  text-align: left;
+}
+
+/* 5) Forms */
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.form-row > label {
+  flex: 0 0 180px; /* фиксированная ширина подписи */
+}
+.form-row > input,
+.form-row > select,
+.form-row > textarea {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+/* 6) Buttons */
+.btn {
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+.btn:hover {
+  filter: brightness(0.98);
+}
+.btn-primary {
+  border-color: #0366d6;
+  background: #0366d6;
+  color: #fff;
+}
+
+/* 7) Alerts */
+.alert {
+  margin-bottom: var(--gap);
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+}
+.alert.success {
+  border-color: var(--ok);
+  background: var(--ok-bg);
+}
+.alert.error {
+  border-color: var(--err);
+  background: var(--err-bg);
+}
+/* Карточка под шапкой профиля */
+.card{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:var(--radius);
+  padding:16px;
+  margin-bottom:16px;
+}
+
+/* Общая обёртка формы профиля (ширина как у регистрации) */
+.profile-form{
+  max-width:640px;
+}
+
+/* Сетка строк формы уже задана .form-row (align, gap, mb) — используем её.
+   Чтобы поле "прилипало" к правому краю строки, инпут растягиваем на всю ширину. */
+.form-row > input,
+.form-row > select,
+.form-row > textarea{
+  width:100%;
+}
+
+/* Правое выравнивание текста внутри инпутов */
+.input-stick-right{
+  text-align:right;
+}
+
+/* Ячейка для аватара: превью + input:file по правому краю */
+.avatar-cell{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end; /* прижать к правому краю */
+  gap:8px;
+}
+
+/* Превью аватара компактнее и с округлением */
+.avatar-preview img{
+  max-height:120px;
+  border-radius:8px;
+  display:block;
+}
+
+/* Ряд с кнопкой — кнопка у правого края */
+.form-actions{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:8px;
+}
+/* Заголовок профиля с мини-аватаром справа */
+.profile-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.profile-head-avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid #e5e5e5;
+  background:#fff;
+}
+.btn-danger { border-color: #d33; background: #d33; color: #fff; }
+/* Профиль: заголовок и мини-аватар справа */
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+
+/* Правая колонка в заголовке (мини-аватар + кнопка удаления) */
+.title-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.avatar-mini {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Кнопка маленького размера (для удаления аватара под мини-аватаром) */
+.btn-xs {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+/* Красная кнопка */
+.btn-danger {
+  border: 1px solid #d33;
+  background: #d33;
+  color: #fff;
+}
+
+/* Зона загрузки аватара в форме */
+.avatar-uploader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.avatar-preview img {
+  max-height: 120px;
+  width: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.avatar-controls .hint {
+  opacity: 0.8;
+  font-size: 12px;
+}
+
+.filename {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.table-wrap { overflow-x: auto; }
+.admin-models { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.admin-model { display: block; padding: 12px; border-radius: var(--radius); background: #fff; border: 1px solid #eee; }
+.admin-model__name { font-weight: 700; margin-bottom: 6px; }
